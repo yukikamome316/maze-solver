@@ -64,7 +64,7 @@ public:
 	*/
 
 	//セルのビットフィールド
-	enum BCell {
+	enum BCell{
 		B_UP = 1 << 0,
 		B_RIGHT = 1 << 1,
 		B_DOWN = 1 << 2,
@@ -72,7 +72,8 @@ public:
 		B_VISITED = 1 << 4,
 		B_START = 1 << 5,
 		B_GOAL = 1 << 6,
-		B_CART = 1 << 7
+		B_CAR = 1 << 7,
+		B_PATH = 1 << 8
 	};
 
 	//裏バッファに描画する この後，画面に表示するためにshowを実行すること
@@ -110,8 +111,12 @@ public:
 					}
 					//③車体
 					int cartRadius = ((cellWidth < cellHeight ? cellWidth : cellHeight) - wallWidth * 2) * 0.6 / 2.0;
-					if (maze[r][c] & B_CART) {
+					if (maze[r][c] & B_CAR) {
 						cv::circle(cellImage, cv::Point(cellWidth / 2, cellHeight / 2), cartRadius, cartColor, -1);
+					}
+					//④最短経路
+					if (maze[r][c] & B_PATH) {
+						cv::circle(cellImage, cv::Point(cellWidth / 2, cellHeight / 2), cartRadius / 2, CV_RGB(130, 130, 0), -1);
 					}
 				}
 				else { //訪問ノードでないなら
